@@ -16,14 +16,14 @@ body{
 }
 
 #loginform{
-    max-width: 890px;
+    max-width: 380px;
     margin: auto;
 }
 
 .container{
     margin-top: 100px;
     box-shadow: var(--shadow);
-    padding: 80px;
+    padding: 35px;
     border-radius: 10px;
 }
 
@@ -32,11 +32,7 @@ form{
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    padding: 0 5rem;
-    overflow: hidden;
-    grid-column: 1/2;
-    grid-row: 1/2;
-    transition: 0.2s 0.7s ease-in-out;
+    padding: 20px;
 }
 
 form.sign-in-form{
