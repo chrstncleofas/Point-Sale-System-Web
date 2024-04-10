@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Point of Sales System</title>
+</head>
+<body>
+    {% block content %}
+    {% if user.is_authenticated %}
+        <p>
+            {% comment %} for future ref {% endcomment %}
+        </p>
+    {% else %}
+    <section id="loginform">
+        <div class="container">
+            <form class="sign-in-form" method="post" action="{% url 'login_page' %}">
+                <h2 style="text-align: center; font-size: 43px; margin-bottom: 10px;">Login Form</h2>
+                {% csrf_token %}
+                <div class="input-field">
+                    <i class='bx bxs-user'></i>
+                    <input type="text" name="login-username" id="login-username" placeholder="Username" required>
+                </div>
+                <div class="input-field">
+                    <i class='bx bxs-lock-alt'></i>
+                    <input type="password" name="login-password" id="login-password" placeholder="Password" required>
+                </div>
+                <div>
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    {% endif %}
+    {% endblock content %}
+</body>
+</html>
