@@ -16,7 +16,6 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanen
 HOME_URL_PATH = 'app/base.html'
 DASHBOARDS_URL_PATH = 'app/dashboard.html'
 
-
 @csrf_exempt
 def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
     # Fetch all Data API
@@ -47,9 +46,6 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
         product.delete()
         return JsonResponse("Deleted Successfully", safe=False)
     
-def home(request) -> HttpResponse:
-    return render(request, HOME_URL_PATH)
-    
 def dashboard(request) -> HttpResponse:
     return render(request, DASHBOARDS_URL_PATH)
 
@@ -78,4 +74,4 @@ def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect
 def logout_view(request) -> HttpResponseRedirect:
     logout(request)
     messages.success(request, "Logged Out Successfully!!")
-    return redirect(home)
+    return redirect(login_page)

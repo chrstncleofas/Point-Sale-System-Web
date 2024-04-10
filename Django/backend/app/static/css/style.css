@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 :root{
-    --shadow: 0 1px 10px #757575;
+    --shadow: 0 1px 5px #757575;
     --scrolling-box: 0 3px 1rem rgba(0,0,0,.1);
 }
   
@@ -24,7 +24,7 @@ body{
     margin-top: 100px;
     box-shadow: var(--shadow);
     padding: 35px;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 form{
