@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^inventory/([0-9]+)$',views.inventoryApiRequest),
     # Frontend API for Transaction
     path('login_page', views.login_page, name='login_page'),
+    path('logout/', views.logout_view, name='logout'),
     path('dashboard', views.dashboard, name='dashboard'),
 ]
