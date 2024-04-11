@@ -60,7 +60,7 @@ def dashboard(request) -> HttpResponse:
     )
 
 def fetchProductData(request) -> HttpResponse:
-    return render(request, 'app/addingProduct.html', {
+    return render(request, 'app/product-page.html', {
         'fetchAllItems' : TableStocks.objects.all(),
     })
 
