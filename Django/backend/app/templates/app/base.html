@@ -18,7 +18,7 @@
     <section id="loginform">
         <div class="container">
             <form class="sign-in-form" method="post" action="{% url 'login_page' %}">
-                <h2 style="text-align: center; font-size: 43px; margin-bottom: 10px;">Login Form</h2>
+                <h2 class="title" style="text-align: center; margin-bottom: 10px;">Login Form</h2>
                 {% csrf_token %}
                 <div class="input-field">
                     <i class='bx bxs-user'></i>

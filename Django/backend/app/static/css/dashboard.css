@@ -6,6 +6,10 @@ body {
     color: #666666;
     font-family: "Montserrat", sans-serif;
   }
+
+th.expand-size{
+  width: 800px !important;
+}
   
   .material-icons-outlined {
     vertical-align: middle;

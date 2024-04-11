@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Montserrat Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Static Css -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <title>Add Product</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <div class="grid-container">
+            <!-- Header -->
+            <header class="header">
+                <div class="menu-icon" onclick="openSidebar()">
+                    <span class="material-icons-outlined">menu</span>
+                </div>
+                <div class="header-left">
+                    <span class="material-icons-outlined">search</span>
+                </div>
+                <!-- For logout -->
+                <div class="header-right">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#logout">
+                        <span class="material-icons-outlined">account_circle</span> Logout
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal" id="logout" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Logout</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure do want to leave this page</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form>
+                                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                                </form>
+                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div> <!---Logout end section-->
+                </div>
+            </header>
+            <!-- Sidebar -->
+            <aside id="sidebar">
+                <div class="sidebar-title">
+                    <div class="sidebar-brand">
+                        <span class="material-icons-outlined">inventory</span> P.O.S Admin
+                    </div>
+                    <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+                </div>
+                <ul class="sidebar-list">
+                    <li class="sidebar-list-item">
+                        <a href="{% url 'dashboard' %}">
+                            <span class="material-icons-outlined">dashboard</span> Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <a href="">
+                            <span class="material-icons-outlined">list_alt</span> Transaction
+                        </a>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <a href="{% url 'addingProduct' %}">
+                            <span class="material-icons-outlined">inventory</span> Products
+                        </a>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <a href="">
+                            <span class="material-icons-outlined">group</span> User Management
+                        </a>
+                    </li>
+                    <li class="sidebar-list-item">
+                        <a href="#">
+                            <span class="material-icons-outlined">settings</span> Settings
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <main class="main-container">
+                <div class="main-cards">
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Add Product</p>
+                            <a 
+                                type="button"
+                                class="btn btn-primary me-1"
+                                href="">
+                                <i class="fa-solid fa-add fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-cards">
+                    <input type="text" class="form-control" id="" name="" placeholder="Search Product">
+                </div>
+                <div class="charts-card">
+                    <div id="bar-chart">
+                    {% if fetchAllItems %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="expand-size">Product ID</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Selling Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in fetchAllItems %}
+                                    <tr>
+                                        <td>{{ item.ProductID }}</td>
+                                        <td>{{ item.ProductName }}</td>
+                                        <td>{{ item.Category }}</td>
+                                        <td>{{ item.Description }}</td>
+                                        <td>{{ item.Qty }}</td>
+                                        <td>{{ item.SellingPrice }}</td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary me-1" href="{% url 'view_items' item.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{item.id}}">
+                                                <i class="fa-solid fa-circle-info fa-lg"></i>
+                                            </button>
+                                                <!-- Modal -->
+                                            <div class="modal" id="myModal{{item.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Proudct Details</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <ul class="list-unstyled">
+                                                        <li>Product ID : <strong>{{ item.ProductID }}</strong></li>
+                                                        <li>Product Name : <strong>{{ item.ProductName }}</strong></li>
+                                                        <li>Category : <strong>{{ item.Category }}</strong></li>
+                                                        <li>Description : <strong>{{ item.Description }}</strong></li>
+                                                        <li>Qty : <strong>{{ item.Qty }}</strong></li>
+                                                        <li>BuyingPrice : <strong>{{ item.BuyingPrice }}</strong></li>
+                                                        <li>SellingPrice : <strong>{{ item.SellingPrice }}</strong></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="" class="btn btn-success"><i class="fa-solid fa-edit fa-lg"></i></a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger me-1" href="" data-bs-toggle="modal" data-bs-target="#delete">
+                                                <i class="fa-solid fa-trash fa-lg"></i>
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal" id="delete" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title">User : </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true"></span>
+                                                    </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure do want to delete this record?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="" method="POST">
+                                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                                        </form>
+                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <h5 class="alert alert-primary ms-4 me-4">No List</h5>
+                    </div>
+                {% endif %}
+                </div>
+           </main>
+        </div>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

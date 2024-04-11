@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="#">
+                        <a href="{% url 'fetchProductData' %}">
                             <span class="material-icons-outlined">inventory</span> Products
                         </a>
                     </li>
@@ -90,6 +90,41 @@
                     </li>
                 </ul>
             </aside>
+            <main class="main-container">
+                <div class="main-title">
+                    <p class="font-weight-bold">Welcome, {{ first_name }} {{ last_name }}</p>
+                </div>
+                <div class="main-cards">
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Total Products</p>
+                            <span class="material-icons-outlined text-orange">add</span>
+                        </div>
+                        <span class="text-primary font-weight-bold">100</span>
+                    </div>
+                    <!-- <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Top Item</p>
+                            <span class="material-icons-outlined text-orange">format_list_numbered</span>
+                        </div>
+                        <span class="text-primary font-weight-bold">Shoes</span>
+                    </div> -->
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Total Transaction</p>
+                            <span class="material-icons-outlined text-orange">list_alt</span>
+                        </div>
+                        <span class="text-primary font-weight-bold">12,000,000</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Users</p>
+                            <span class="material-icons-outlined text-orange">group</span>
+                        </div>
+                        <span class="text-primary font-weight-bold">15</span>
+                    </div>
+                </div>
+            </main>
         </div>
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

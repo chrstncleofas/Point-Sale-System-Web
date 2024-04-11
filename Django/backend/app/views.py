@@ -15,6 +15,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanen
 
 HOME_URL_PATH = 'app/base.html'
 DASHBOARDS_URL_PATH = 'app/dashboard.html'
+ADD_PRODUCT_URL = 'app/addingProduct.html'
 
 @csrf_exempt
 def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
@@ -48,6 +49,19 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
     
 def dashboard(request) -> HttpResponse:
     return render(request, DASHBOARDS_URL_PATH)
+
+def addingProducts(request) -> HttpResponse:
+    return render(request, ADD_PRODUCT_URL)
+
+def fetchProductData(request) -> HttpResponse:
+    return render(request, 'app/addingProduct.html', {
+        'fetchAllItems' : TableStocks.objects.all(),
+    })
+
+def view_items(request, id) -> HttpResponseRedirect:
+    if request.method == 'GET':
+        TableStocks.objects.get(pk=id)
+    return HttpResponseRedirect(reverse(fetchProductData))
 
 def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse):
     if request.method == 'POST':
