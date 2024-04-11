@@ -11,7 +11,6 @@ urlpatterns = [
     path('', views.login_page, name='login_page'),
     path('logout/', views.logout_view, name='logout'),
     path('dashboard', views.dashboard, name='dashboard'),
-    path('addingProduct', views.addingProducts, name='addingProduct'),
     path('fetchProductData', views.fetchProductData, name='fetchProductData'),
     path('<int:id>/view_items/', views.view_items, name='view_items'),
 ]

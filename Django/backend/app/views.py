@@ -1,4 +1,4 @@
-from .models import TableStocks, TableTemp, TableTransaction
+from .models import TableStocks, TableTemp, TableTransaction, CustomUser
 from django.http import JsonResponse
 from app.serializers import InventorySerializer
 from rest_framework.parsers import JSONParser
@@ -48,10 +48,16 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
         return JsonResponse("Deleted Successfully", safe=False)
     
 def dashboard(request) -> HttpResponse:
-    return render(request, DASHBOARDS_URL_PATH)
-
-def addingProducts(request) -> HttpResponse:
-    return render(request, ADD_PRODUCT_URL)
+    totalProduct = TableStocks.objects.count()
+    users = CustomUser.objects.count()
+    return render(
+        request,
+        DASHBOARDS_URL_PATH, 
+        {
+            'totalProduct': totalProduct,
+            'users': users,
+        }
+    )
 
 def fetchProductData(request) -> HttpResponse:
     return render(request, 'app/addingProduct.html', {
