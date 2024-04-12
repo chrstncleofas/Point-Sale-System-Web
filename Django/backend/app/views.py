@@ -47,6 +47,8 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
         product.delete()
         return JsonResponse("Deleted Successfully", safe=False)
     
+
+    
 def dashboard(request) -> HttpResponse:
     totalProduct = TableStocks.objects.count()
     users = CustomUser.objects.count()
