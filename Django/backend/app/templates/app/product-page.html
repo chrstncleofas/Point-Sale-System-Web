@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="{% url 'fetchProductData' %}">
+                        <a href="{% url 'getListOfProduct' %}">
                             <span class="material-icons-outlined">inventory</span> Products
                         </a>
                     </li>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="charts-card">
                     <div id="bar-chart">
-                    {% if fetchAllItems %}
+                    {% if getListOfProduct %}
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -123,7 +123,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in fetchAllItems %}
+                                {% for item in getListOfProduct %}
                                     <tr>
                                         <td>{{ item.ProductID }}</td>
                                         <td>{{ item.ProductName }}</td>

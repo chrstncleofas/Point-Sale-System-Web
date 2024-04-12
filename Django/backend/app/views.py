@@ -59,15 +59,15 @@ def dashboard(request) -> HttpResponse:
         }
     )
 
-def fetchProductData(request) -> HttpResponse:
+def getListOfProduct(request) -> HttpResponse:
     return render(request, 'app/product-page.html', {
-        'fetchAllItems' : TableStocks.objects.all(),
+        'getListOfProduct' : TableStocks.objects.all(),
     })
 
 def view_items(request, id) -> HttpResponseRedirect:
     if request.method == 'GET':
         TableStocks.objects.get(pk=id)
-    return HttpResponseRedirect(reverse(fetchProductData))
+    return HttpResponseRedirect(reverse(getListOfProduct))
 
 def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse):
     if request.method == 'POST':
