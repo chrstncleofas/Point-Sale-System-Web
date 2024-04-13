@@ -1,0 +1,14 @@
+my-pos-project/
+├── src/
+│   ├── components/
+│   │   ├── Login.vue
+│   │   └── Cashier.vue
+│   ├── router/
+│   │   └── index.js
+│   ├── views/
+│   │   ├── Home.vue
+│   │   └── NotFound.vue
+│   └── App.vue
+├── main.js
+└── assets/
+    └── styles.css

@@ -9,9 +9,16 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from rest_framework.views import APIView
+import jwt, datetime
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.response import Response
 
 HOME_URL_PATH = 'app/base.html'
 DASHBOARDS_URL_PATH = 'app/dashboard.html'
@@ -46,8 +53,40 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
         product=TableStocks.objects.get(product_id=product_id)
         product.delete()
         return JsonResponse("Deleted Successfully", safe=False)
-    
 
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data['username']
+        password = request.data['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise AuthenticationFailed("Account not found")
+        
+        if not user.check_password(password):
+            raise AuthenticationFailed("Wrong Password")
+        
+        payload = {
+            'id' : user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=68),
+            'iat': datetime.datetime.utcnow()
+
+        }
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        response = Response()
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.data = {
+            'jwt': token
+        }  
+        return response
+    
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            'message' : 'Logout'
+        }
+        return response
     
 def dashboard(request) -> HttpResponse:
     totalProduct = TableStocks.objects.count()
