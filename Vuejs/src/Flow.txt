@@ -1,4 +1,4 @@
-my-pos-project/
+Vuejs/
 ├── src/
 │   ├── components/
 │   │   ├── Login.vue
@@ -8,7 +8,7 @@ my-pos-project/
 │   ├── views/
 │   │   ├── Home.vue
 │   │   └── NotFound.vue
-│   └── App.vue
-├── main.js
-└── assets/
-    └── styles.css
+│   ├── App.vue
+│   ├── main.js
+└────── assets/
+        └── styles.css
