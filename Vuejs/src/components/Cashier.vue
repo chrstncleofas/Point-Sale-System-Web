@@ -31,7 +31,7 @@ const toast = useToast();
 
 const logout = async () => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/logout');
+    const response = await axios.post('http://127.0.0.1:8000/logout');
     
     if (response.status === 200) {
       router.push('/login');
