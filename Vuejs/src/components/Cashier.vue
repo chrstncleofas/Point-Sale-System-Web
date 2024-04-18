@@ -1,6 +1,5 @@
 <template>
    <Sidebar />
-
    <Rightside />
 </template>
 
