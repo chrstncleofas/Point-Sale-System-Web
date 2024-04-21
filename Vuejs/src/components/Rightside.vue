@@ -1,80 +1,135 @@
 <template>
-    <div class="bg-gray-800 lg:w-96 lg:h-full float-right overflow-y-auto">
-        <div class="flex justify-between">
-            <div class="p-4">
-                <a href="">
-                    <span>
-                        <i class="fa-solid fa-cart-plus text-white text-2xl"></i>
-                    </span>
-                </a>
-            </div>
-            <div class="p-4">
-                <a href="">
-                    <span>
-                        <i class="fa-solid fa-trash text-white text-2xl"></i>
-                    </span>
-                </a>
-            </div>
+    <div class="right-side">
+        <div class="table-container">
+            <table class="shadow-2xl shadow-gray-100">
+                <thead class="p-3">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Image</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Product Info</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr v-for="(row, index) in rows" :key="index">
+                        <td>Shoes Item {{ index + 1 }}</td>
+                        <td><img src="../components/icons/Product-01.jpg" class="w-10 h-10"></td>
+                        <td>
+                            <div class="flex items-center justify-center">
+                                <button @click="decrement(index)" class="px-2 py-1 rounded-l bg-gray-200">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="text" v-model="row.value" class="px-1 py-1 text-center w-16" />
+                                <button @click="increment(index)" class="px-2 py-1 rounded-r bg-gray-200">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td>10,000</td>
+                        <td>Sample Info</td>
+                        <td>
+                            <button><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div>
-            <div class="bg-white w-80 h-20 ml-10 rounded-md mb-5">
-                <div class="grid grid-cols-2 gap-5">
-                    <div>
-                        <div class="p-5">
-                            <img class="w-12 h-12" src="../components/icons/Pos-Icon.png">
-                        </div>
-                        <div class="absolute left-45 ml-20 top-11 mt-9">
-                            <h6 class="font-bold m-0">Product</h6>
-                            <p class="m-0 text-xs">Php 800</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-center gap-3 mt-5">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-minus text-4xl"></i></a>
-                        <input type="text" value="0" class="text-2xl w-9 h-8 bg-darkGrayishBlue text-gray-800 text-center">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-plus text-4xl"></i></a>
-                    </div>
+        <div class="section-b bg-gray-800 text-white">
+            <div class="content">
+                <div>
+                    <h5 class="font-bold">Subtotal</h5>
+                    <h5 class="font-bold">Total</h5>
+                </div>
+                <div class="amout">
+                    <h6>Php 500</h6>
+                    <h6>Php 550</h6>
                 </div>
             </div>
-            <div class="bg-white w-80 h-20 ml-10 rounded-md mb-5">
-                <div class="grid grid-cols-2 gap-5">
-                    <div>
-                        <div class="p-5">
-                            <img class="w-12 h-12" src="../components/icons/Pos-Icon.png">
-                        </div>
-                        <div class="absolute left-45 ml-20 top-11 mt-9">
-                            <h6 class="font-bold m-0">Product</h6>
-                            <p class="m-0 text-xs">Php 800</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-center gap-3 mt-5">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-minus text-4xl"></i></a>
-                        <input type="text" value="0" class="text-2xl w-9 h-8 bg-darkGrayishBlue text-gray-800 text-center">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-plus text-4xl"></i></a>
-                    </div>
+            <div class="section-c mt-5">
+                <div class="mb-3 fields">
+                    <label for="" class="mb-2">Amount:</label>
+                    <input type="text" class="h-9 rounded">
+                </div>
+                <div class="fields">
+                    <label for="" class="mb-2">Change:</label>
+                    <input type="text" class="h-9 rounded">
                 </div>
             </div>
-            <div class="bg-white w-80 h-20 ml-10 rounded-md mb-5">
-                <div class="grid grid-cols-2 gap-5">
-                    <div>
-                        <div class="p-5">
-                            <img class="w-12 h-12" src="../components/icons/Pos-Icon.png">
-                        </div>
-                        <div class="absolute left-45 ml-20 top-11 mt-9">
-                            <h6 class="font-bold m-0">Product</h6>
-                            <p class="m-0 text-xs">Php 800</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-center gap-3 mt-5">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-minus text-4xl"></i></a>
-                        <input type="text" value="0" class="text-2xl w-9 h-8 bg-darkGrayishBlue text-gray-800 text-center">
-                        <a href="" class="text-3xl"><i class="fa-solid fa-square-plus text-4xl"></i></a>
-                    </div>
-                </div>
+            <div class="button">
+                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-11 h-9 rounded mt-4 float-right">
+                    Pay
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 
+const rows = ref([
+  { value: 0 },
+  { value: 0 },
+  { value: 0 }
+]);
+
+const increment = (index) => {
+  rows.value[index].value++;
+};
+
+const decrement = (index) => {
+  rows.value[index].value--;
+};
 </script>
+
+<style scoped>
+.right-side{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.table-container{
+    width: 100%;
+    background-color: #fff;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+padding: 8px;
+border: 1px solid #ddd;
+}
+.section-b{
+    padding: 25px;
+}
+.section-b h5{
+    line-height: 2.2;
+}
+.section-b .content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.content .amout{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: last baseline;
+}
+.content h6{
+    line-height: 2.2;
+}
+.section-c{
+    display: flex;
+    flex-direction: column;
+}
+.section-c .fields{
+    display: flex;
+    flex-direction: column;
+}
+</style>
