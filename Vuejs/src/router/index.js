@@ -2,12 +2,14 @@
 import Login from '../components/Login.vue';
 import NotFound from '../views/NotFound.vue';
 import Cashier from '../components/Cashier.vue';
+import Product from '../components/Product.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   // { path: '/', component: Home },
   { path: '/', component: Login },
   { path: '/cashier', component: Cashier },
+  { path: '/product', component: Product },
   { path: '/:pathMatch(.*)', component: NotFound }
 ];
 

@@ -11,49 +11,12 @@
             <span class="bg-brightRedLight rounded p-1 font-semibold text-white text-xs mr-2">Shorts</span>
             <span class="bg-brightRedLight rounded p-1 font-semibold text-white text-xs mr-2">T-shirt</span>
         </div>
-        <div class="item-container">
-            <div class="item bg-white">
-                <img src="../components/icons/Product-01.jpg" class="w-15 h-15">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-            <div class="item bg-white">
-                <img src="../components/icons/Product-02.jpg" class="w-15 h-15 mb-2">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-            <div class="item bg-white">
-                <img src="../components/icons/Product-05.jpg" class="w-15 h-15">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-            <div class="item bg-white">
-                <img src="../components/icons/Product-04.jpg" class="w-15 h-15">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-            <div class="item bg-white mt-5">
-                <img src="../components/icons/Product-03.jpg" class="w-15 h-15">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-            <div class="item bg-white mt-5">
-                <img src="../components/icons/Product-01.jpg" class="w-15 h-15">
-                <h6 class="font-bold">Short One</h6>
-                <p class="text-xs font-semibold">Php 200</p>
-                <button type="submit" class="bg-brightRed shadow-lg shadow-slate-900 w-20 h-7 rounded mt-4 float-right text-xs text-white">Add to Cart</button>
-            </div>
-        </div>
+        <Product />
     </div>
 </template>
 
 <script setup>
-
+import Product from './Product.vue';
 </script>
 
 <style scoped>
@@ -65,19 +28,5 @@
     position: absolute;
     top: 95px;
     left: 775px;
-}
-.item-container{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    overflow-y: auto;
-    max-height: 1000px;
-    padding: 20px;
-}
-.item{
-    width: 90%;
-    height: 240px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
 }
 </style>

@@ -5,7 +5,7 @@
         <img src="../components/icons/Pos-Icon.png" class="w-10 h-10">
       </div>
       <div class="hidden lg:flex justify-">
-        <router-link to="/products" class="py-2 px-4 text-white hover:bg-gray-700">
+        <router-link to="/product" class="py-2 px-4 text-white hover:bg-gray-700">
           <span class="mr-2">
             <i class="fas fa-box-open"></i>
           </span>Products

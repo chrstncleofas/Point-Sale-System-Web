@@ -50,11 +50,11 @@
             <div class="section-c mt-5">
                 <div class="mb-3 fields">
                     <label for="" class="mb-2">Amount:</label>
-                    <input type="text" class="h-9 rounded">
+                    <input type="text" class="h-9 rounded text-neutral-950 pl-3">
                 </div>
                 <div class="fields">
                     <label for="" class="mb-2">Change:</label>
-                    <input type="text" class="h-9 rounded">
+                    <input type="text" class="h-9 rounded text-neutral-950 pl-3">
                 </div>
             </div>
             <div class="button">
@@ -100,7 +100,6 @@ const decrement = (index) => {
     width: 100%;
     border-collapse: collapse;
 }
-
 .table-container th, .table-container td {
 padding: 8px;
 border: 1px solid #ddd;

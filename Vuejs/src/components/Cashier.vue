@@ -27,7 +27,7 @@ body{
 .container{
    display: grid;
    grid-template-columns: 1fr 420px;
-   gap: 10px;
+   gap: 15px;
    margin-top: 70px;
 }
 </style>

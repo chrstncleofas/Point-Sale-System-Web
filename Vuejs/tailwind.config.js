@@ -16,6 +16,9 @@ export default {
         veryPaleRed: 'hsl(13, 100%, 96%)',
         veryLightGray: 'hsl(0, 0%, 98%)',
       },
+      shadows:{
+        plainShadow: '0 1px 10px #9e9e9e',
+      },
     },
     screens: {
       sm: '480px',
