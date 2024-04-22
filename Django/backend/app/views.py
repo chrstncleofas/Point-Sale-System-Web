@@ -42,7 +42,7 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
     # Update API
     elif request.method=='PUT':
         product_data=JSONParser().parse(request)
-        product=TableStocks.objects.get(product_id=product_data['StudentID'])
+        product=TableStocks.objects.get(product_id=product_data['ProductID'])
         product_serializer=InventorySerializer(product, data=product_data)
         if product_serializer.is_valid():
             product_serializer.save()

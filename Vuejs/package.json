@@ -18,7 +18,8 @@
     "portal-vue": "^2.1.7",
     "vue": "^3.4.23",
     "vue-router": "^4.3.0",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
