@@ -3,21 +3,19 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     cart: [],
+    change: 0,
   },
   mutations: {
     addToCart(state, product) {
       const existingItemIndex = state.cart.findIndex(item => item.ProductID === product.ProductID);
       if (existingItemIndex !== -1) {
-        // If item already exists in cart, update quantity and total price
         state.cart[existingItemIndex].quantity++;
         state.cart[existingItemIndex].totalPrice = state.cart[existingItemIndex].quantity * product.SellingPrice;
       } else {
-        // If item does not exist in cart, add it with quantity and total price
         state.cart.push({ ...product, quantity: 1, totalPrice: product.SellingPrice });
       }
     },
     incrementQuantity(state, index) {
-      // Increment quantity and update total price
       state.cart[index].quantity++;
       state.cart[index].totalPrice = state.cart[index].quantity * state.cart[index].SellingPrice;
     },
@@ -31,6 +29,9 @@ export default createStore({
     },
     removeFromCart(state, index) {
       state.cart.splice(index, 1);
+    },
+    updateChange(state, newChange) {
+      state.change = newChange;
     },
   },
   actions: {
@@ -46,10 +47,16 @@ export default createStore({
     decrementQuantity({ commit }, index) {
       commit('decrementQuantity', index);
     },
+    updateChange({ commit }, newChange) {
+      commit('updateChange', newChange);
+    },
   },
   getters: {
     cartItems(state) {
       return state.cart;
+    },
+    changeValue(state) {
+      return state.change;
     },
   },
 });

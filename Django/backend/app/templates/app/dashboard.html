@@ -97,7 +97,7 @@
                 <div class="main-cards">
                     <div class="card">
                         <div class="card-inner">
-                            <p class="text-primary">Total Products</p>
+                            <p class="text-primary">Total Sold Items</p>
                             <span class="material-icons-outlined text-orange">add</span>
                         </div>
                         <span class="text-primary font-weight-bold">{{ totalProduct }}</span>
@@ -111,22 +111,44 @@
                     </div> -->
                     <div class="card">
                         <div class="card-inner">
-                            <p class="text-primary">Total Transaction</p>
-                            <span class="material-icons-outlined text-orange">list_alt</span>
-                        </div>
-                        <span class="text-primary font-weight-bold">12,000,000</span>
-                    </div>
-                    <div class="card">
-                        <div class="card-inner">
                             <p class="text-primary">Users</p>
                             <span class="material-icons-outlined text-orange">group</span>
                         </div>
                         <span class="text-primary font-weight-bold">{{ users }}</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Daily Sales</p>
+                            <span class="material-icons-outlined text-orange">price_change</span>
+                        </div>
+                        <span class="text-primary font-weight-bold" id="daily-sales">120000</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="text-primary">Monthly Sales</p>
+                            <span class="material-icons-outlined text-orange">
+                                paid
+                            </span>
+                        </div>
+                        <span class="text-primary font-weight-bold" id="monthly-sales">1000000</span>
                     </div>
                 </div>
             </main>
         </div>
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const formatCurrency = (value) => {
+            return new Intl.NumberFormat('en-PH', {
+                style: 'currency',
+                currency: 'PHP',
+            }).format(value);
+        };
+        const dailySalesElement = document.getElementById('daily-sales');
+        dailySalesElement.textContent = formatCurrency(parseFloat(dailySalesElement.textContent.replace(/,/g, '')));
+
+        const monthlySalesElement = document.getElementById('monthly-sales');
+        monthlySalesElement.textContent = formatCurrency(parseFloat(monthlySalesElement.textContent.replace(/,/g, '')));
+    </script>
 </body>
 </html>

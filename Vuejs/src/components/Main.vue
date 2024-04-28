@@ -2,9 +2,6 @@
     <div class="products bg-gray-800 shadow-gray-600">
         <div class="p-4">
             <input type="text" class="w-full h-8 pl-5 pb-5 pt-5 rounded" placeholder="Search">
-            <span class="icons-class">
-                <i class="fas fa-search"></i>
-            </span>
         </div>
         <div class="category p-3">
             <span class="bg-brightRed rounded p-1 font-semibold text-white text-xs mr-2">All</span>
@@ -24,9 +21,5 @@ import Product from './Product.vue';
     width: 100%;
     max-height: 830px;
 }
-.icons-class{
-    position: absolute;
-    top: 95px;
-    left: 775px;
-}
+
 </style>

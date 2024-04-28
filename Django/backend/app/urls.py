@@ -5,8 +5,8 @@ from .views import LoginView, LogoutView
 
 urlpatterns = [
     # Frontend API for Inventory
-    path('inventory/', views.inventoryApiRequest),
-    path('inventory/<str:product_id>/', views.inventoryApiRequest),
+    url('inventory/',views.inventoryApiRequest),
+    url(r'^inventory/([0-9]+)$',views.inventoryApiRequest),
     # Login API
     path('login', LoginView.as_view()),
     path('logout', LogoutView.as_view()),

@@ -1,19 +1,31 @@
 <template>
     <div class="right-side">
+      <div class="cashier-transid">
+        <div class="content">
+          <div>
+            <input type="text" id="transaction_id" class="hidden" value="TRAN001"> <!--Para ma save lang sa database-->
+          </div>
+          <div>
+            <h6 id="cashier-name" class="hidden">TianTzy</h6> <!--Para ma save lang sa database-->
+            <h6 id="date_time" class="hidden">04-23-2024 - 10:00</h6> <!--Para ma save lang sa database-->
+          </div>
+        </div>
+      </div>
       <div class="table-container">
         <table class="shadow-2xl shadow-gray-100">
           <thead class="p-3">
             <tr>
-              <th>Item Name</th>
-              <th>Qty</th>
-              <th>Price</th>
-              <th>Delete</th>
+              <th class="text-xs font-semibold">Name</th>
+              <th class="text-xs font-semibold">Qty</th>
+              <th class="text-xs font-semibold">Price</th>
+              <th class="text-xs font-semibold">Total</th>
+              <th class="text-xs font-semibold">Action</th>
             </tr>
           </thead>
           <tbody class="text-center">
             <tr v-for="(item, index) in cartItems" :key="index">
-              <td>{{ item.ProductName }}</td>
-              <td>
+              <td class="text-xs font-light">{{ item.ProductName }}</td>
+              <td class="text-xs font-light">
                 <div class="flex items-center justify-center">
                   <button @click="decrement(item)" class="px-2 py-1 rounded-l bg-gray-200">
                     <i class="fas fa-minus"></i>
@@ -24,8 +36,9 @@
                   </button>
                 </div>
               </td>
-              <td>{{ item.totalPrice }}</td>
-              <td>
+              <td class="unit-price text-slate-900 text-xs font-light">{{ item.SellingPrice }}</td>
+              <td class="text-xs font-light">{{ item.totalPrice }}</td>
+              <td class="text-xs font-light">
                 <button @click="removeFromCart(index)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
@@ -35,22 +48,20 @@
       <div class="section-b bg-gray-800 text-white">
         <div class="content">
           <div>
-            <h5 class="font-bold">Subtotal</h5>
-            <h5 class="font-bold">Total</h5>
+            <h5 class="font-bold">Total Amount</h5>
           </div>
           <div class="amout">
             <h6>{{ formatCurrency(subtotal) }}</h6>
-            <h6>Php 550</h6>
           </div>
         </div>
         <div class="section-c mt-5">
           <div class="mb-3 fields">
             <label for="" class="mb-2">Amount:</label>
-            <input type="text" class="h-9 rounded text-neutral-950 pl-3">
+            <input type="number" class="h-9 rounded text-neutral-950 pr-1 text-right" v-model="amount" @keyup.enter="handleEnterKeyPress" placeholder="₱0.00">
           </div>
           <div class="fields">
             <label for="" class="mb-2">Change:</label>
-            <input type="text" class="h-9 rounded text-neutral-950 pl-3">
+            <input type="text" class="h-9 rounded text-neutral-950 pr-5 text-right" :value="formatCurrency(change)">
           </div>
         </div>
         <div class="button">
@@ -62,45 +73,56 @@
     </div>
   </template>
   
-  <script setup>
-  import { computed, watch } from 'vue';
+ <script setup>
+  import { computed, watch, ref } from 'vue';
   import { useStore } from 'vuex';
   
   const store = useStore();
   const cartItems = computed(() => store.getters.cartItems);
+  const change = ref(0);
   
-  // Compute subtotal and total price
   const subtotal = computed(() => {
-    return cartItems.value.reduce((acc, item) => acc + item.totalPrice, 0);
-  });
+    return cartItems.value.reduce((acc, item) => 
+        acc + item.totalPrice, 0
+      );
+    });
   
-  const total = computed(() => {
-    // Here you can add any additional charges like tax or shipping if needed
-    return subtotal.value;
-  });
-  
-  // Format currency function
-  const formatCurrency = (amount) => {
-    if (typeof amount !== 'number') {
-      return 'Php 0.00'; // default value or handle error accordingly
+  let amount = '';
+  const computeChange = () => {
+    const inputAmount = parseFloat(amount);
+    if (!isNaN(inputAmount)) {
+      change.value = inputAmount - subtotal.value;
+    } else {
+      change.value = 0;
     }
-    return 'Php ' + amount.toFixed(2);
+    change.value = parseFloat(change.value.toFixed(2));
+  };
+
+  const handleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      console.log('Enter key pressed');
+      computeChange();
+    }
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+    }).format(value);
   };
   
-  // Remove item from cart
   const removeFromCart = (index) => {
     store.dispatch('removeFromCart', index);
   };
   
-  // Increment quantity of item
   const increment = (item) => {
     const index = cartItems.value.findIndex(cartItem => cartItem.ProductID === item.ProductID);
     if (index !== -1) {
       store.dispatch('incrementQuantity', index);
     }
   };
-  
-  // Decrement quantity of item
+
   const decrement = (item) => {
     const index = cartItems.value.findIndex(cartItem => cartItem.ProductID === item.ProductID);
     if (index !== -1 && cartItems.value[index].quantity > 1) {
@@ -108,12 +130,14 @@
     }
   };
   
-  // Watch cartItems for changes and recompute subtotal accordingly
   watch(cartItems, () => {
-    // Recompute subtotal
-    subtotal.value = cartItems.value.reduce((acc, item) => acc + item.totalPrice, 0);
+    subtotal.value = cartItems.value.reduce((acc, item) => 
+      acc + item.totalPrice, 0
+    );
   });
-  </script>
+
+</script>
+
 <style scoped>
   .right-side {
     display: flex;

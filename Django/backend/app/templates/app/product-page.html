@@ -115,11 +115,14 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="expand-size">Product ID</th>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Selling Price</th>
+                                    <th scope="col" class="expand-size">Product Name</th>
+                                    <th scope="col" class="expand-size">Category</th>
+                                    <th scope="col" class="expand-size">Description</th>
+                                    <th scope="col" class="expand-size">Qty</th>
+                                    <th scope="col" class="expand-size">Selling Price</th>
+                                    <th scope="col">Info</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -131,8 +134,6 @@
                                         <td>{{ item.Description }}</td>
                                         <td>{{ item.Qty }}</td>
                                         <td>{{ item.SellingPrice }}</td>
-                                        <td>
-                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-primary me-1" href="{% url 'view_items' item.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{item.id}}">
                                                 <i class="fa-solid fa-circle-info fa-lg"></i>

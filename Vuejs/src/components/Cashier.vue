@@ -30,4 +30,30 @@ body{
    gap: 15px;
    margin-top: 70px;
 }
+
+@media (max-width: 430px) {
+   #main-container{
+      display: flex;
+      justify-content: center;
+      height: 50vh;
+   }
+   .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   #main-container{
+      display: flex;
+      justify-content: center;
+      height: 50vh;
+   }
+   .container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+   }
+}
 </style>
