@@ -198,7 +198,6 @@
     justify-content: center;
     align-items: center;
   }
-
   .modal-content {
     background-color: white;
     padding: 20px;

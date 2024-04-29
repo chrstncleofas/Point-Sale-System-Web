@@ -2,7 +2,7 @@
   <div class="item-container">
       <div v-for="product in products" :key="product.ProductID" class="item bg-white mb-5">
           <img src="../components/icons/Product-01.jpg" class="w-15 h-15 product-img">
-          <h6 class="font-bold hidden">{{ product.ProductID }}</h6> <!--Purpose ko dito is ma save lang sa database ito ID -->
+          <h6 class="font-bold hidden">{{ product.ProductID }}</h6>
           <h6 class="font-bold">{{ product.ProductName }}</h6>
           <p class="text-xs font-semibold">Php {{ product.SellingPrice }}</p>
           <p class="text-xs font-semibold hidden">{{ product.Description }}</p>

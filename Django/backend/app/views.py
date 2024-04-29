@@ -2,6 +2,7 @@ import json
 import jwt, datetime
 from django.urls import reverse
 from django.contrib import messages
+from datetime import datetime, date
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,7 +18,6 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
 from .models import TableStocks, TableTemp, TableTransaction, CustomUser
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
-from datetime import datetime, date
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
@@ -59,13 +59,11 @@ def saveTransaction(request) -> JsonResponse:
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            # Validate required fields
             required_fields = ['TransactionID', 'ProductID', 'ProductName', 'Qty', 'UnitPrice', 'TotalAmount', 'DateTime', 'CashierName']
             for field in required_fields:
                 if field not in data or data[field] is None:
                     return JsonResponse({'error': f'Missing or invalid value for field: {field}'}, status=400)
-            
-            # Save transaction to database
+
             TableTransaction.objects.create(
                 TransactionID=data['TransactionID'],
                 ProductID=data['ProductID'],

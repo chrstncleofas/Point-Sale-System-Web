@@ -1,14 +1,20 @@
 Vuejs/
 ├── src/
+│   ├── assets/
+│   │   ├── main.css
+│   │   └── style.css
 │   ├── components/
 │   │   ├── Login.vue
 │   │   └── Cashier.vue
+│   ├── plugins/
+│   │   └── bootstrap-vue.js
 │   ├── router/
+│   │   └── index.js
+│   ├── store/
 │   │   └── index.js
 │   ├── views/
 │   │   ├── Home.vue
 │   │   └── NotFound.vue
 │   ├── App.vue
 │   ├── main.js
-└────── assets/
-        └── styles.css
+└──────────────────
