@@ -17,6 +17,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
 from .models import TableStocks, TableTemp, TableTransaction, CustomUser
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from datetime import datetime, date
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
@@ -54,9 +55,34 @@ def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
         return JsonResponse("Deleted Successfully", safe=False)
     
 @csrf_exempt
-def saveTransaction():
-    pass
-
+def saveTransaction(request) -> JsonResponse:
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            # Validate required fields
+            required_fields = ['TransactionID', 'ProductID', 'ProductName', 'Qty', 'UnitPrice', 'TotalAmount', 'DateTime', 'CashierName']
+            for field in required_fields:
+                if field not in data or data[field] is None:
+                    return JsonResponse({'error': f'Missing or invalid value for field: {field}'}, status=400)
+            
+            # Save transaction to database
+            TableTransaction.objects.create(
+                TransactionID=data['TransactionID'],
+                ProductID=data['ProductID'],
+                ProductName=data['ProductName'],
+                Description=data.get('Description', ''),
+                Qty=data['Qty'],
+                UnitPrice=data['UnitPrice'],
+                TotalAmount=data['TotalAmount'],
+                DateTime=data['DateTime'],
+                CashierName=data['CashierName']
+            )
+            return JsonResponse({'message': 'Data saved successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+    
 class LoginView(APIView):
     def post(self, request):
         username = request.data['username']
@@ -94,12 +120,17 @@ class LogoutView(APIView):
 def dashboard(request) -> HttpResponse:
     totalProduct = TableStocks.objects.count()
     users = CustomUser.objects.count()
+    transactions = TableTransaction.objects.all()
+    itemSold = TableTransaction.objects.count()
+    total_sales = sum(float(transaction.TotalAmount) for transaction in transactions)
     return render(
         request,
         DASHBOARDS_URL_PATH, 
         {
             'totalProduct': totalProduct,
             'users': users,
+            'itemSold' : itemSold,
+            'total_sales': total_sales
         }
     )
 

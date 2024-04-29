@@ -7,6 +7,8 @@ urlpatterns = [
     # Frontend API for Inventory
     url('inventory/',views.inventoryApiRequest),
     url(r'^inventory/([0-9]+)$',views.inventoryApiRequest),
+    # Save Transaction
+    path('saveTransaction/', views.saveTransaction, name='saveTransaction'),
     # Login API
     path('login', LoginView.as_view()),
     path('logout', LogoutView.as_view()),

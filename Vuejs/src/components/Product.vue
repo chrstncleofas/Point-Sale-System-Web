@@ -12,27 +12,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useStore } from 'vuex';
+  import { ref } from 'vue';
+  import { useStore } from 'vuex';
 
-const store = useStore();
-const products = ref([]);
+  const store = useStore();
+  const products = ref([]);
 
-async function fetchProducts() {
-try {
-  const response = await fetch('http://127.0.0.1:8000/inventory');
-  const data = await response.json();
-  products.value = data;
-} catch (error) {
-  console.error('Error fetching products:', error);
-}
-}
+  async function fetchProducts() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/inventory');
+      const data = await response.json();
+      products.value = data;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  }
 
-const addToCart = (product) => {
-  store.dispatch('addToCart', product);
-};
-
-fetchProducts();
+  fetchProducts();
+  const addToCart = (product) => {
+    store.dispatch('addToCart', product);
+  };
+  
 </script>
 
 <style scoped>
