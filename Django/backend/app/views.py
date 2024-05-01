@@ -1,23 +1,19 @@
 import json
 import jwt, datetime
 from django.urls import reverse
+from django.conf import settings
 from django.contrib import messages
-from datetime import datetime, date
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from rest_framework.parsers import JSONParser
-from django.shortcuts import get_object_or_404
 from app.serializers import InventorySerializer
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import update_session_auth_hash
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
-from .models import TableStocks, TableTemp, TableTransaction, CustomUser
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from .models import TableStocks, TableTransaction, CustomUser
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
