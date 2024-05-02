@@ -8,8 +8,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   // { path: '/', component: Home },
   { path: '/', component: Login },
-  { path: '/cashier', component: Cashier },
-  { path: '/product', component: Product },
+  { path: '/cashier', component: Cashier, meta: { requiresAuth: true } },
+  { path: '/product', component: Product, meta: { requiresAuth: true } },
+  { path: '/404', component: NotFound },
   { path: '/:pathMatch(.*)', component: NotFound }
 ];
 

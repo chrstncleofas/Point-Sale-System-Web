@@ -1,5 +1,5 @@
 <template>
-  <div class="item-container">
+  <div v-if="authenticated" class="item-container">
       <div v-for="product in products" :key="product.ProductID" class="item bg-white mb-5">
           <img src="../components/icons/Product-01.jpg" class="w-15 h-15 product-img">
           <h6 class="font-bold hidden">{{ product.ProductID }}</h6>
@@ -12,11 +12,15 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
 
   const store = useStore();
   const products = ref([]);
+
+  const authenticated = ref(false);
+  const router = useRouter();
 
   async function fetchProducts() {
     try {
@@ -32,6 +36,14 @@
   const addToCart = (product) => {
     store.dispatch('addToCart', product);
   };
+
+  onMounted(() => {
+      const jwt = localStorage.getItem('jwt');
+      authenticated.value = !!jwt;
+      if (!authenticated.value) {
+          router.push('/');
+      }
+  });
   
 </script>
 

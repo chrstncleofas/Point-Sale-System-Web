@@ -49,33 +49,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+  import { ref } from 'vue';
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const username = ref('');
-const password = ref('');
-const showModal = ref(false);
+  const router = useRouter();
+  const username = ref('');
+  const password = ref('');
+  const showModal = ref(false);
 
-const login = async () => {
-    try {
-        const response = await axios.post('http://127.0.0.1:8000/login', {
-            username: username.value,
-            password: password.value
-        });
+  const login = async () => {
+      try {
+          const response = await axios.post('http://127.0.0.1:8000/login', {
+              username: username.value,
+              password: password.value
+          });
 
-        if (response.data.jwt) {
-            showModal.value = true;
-            setTimeout(() => {
-              router.push('/cashier');
-            }, 400);
-        } else {
-            alert('Login failed. Please check your credentials.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
-    }
-};
+          if (response.data.jwt) {
+              localStorage.setItem('jwt', response.data.jwt);
+              showModal.value = true;
+              setTimeout(() => {
+                  router.push('/cashier');
+              }, 400);
+          } else {
+              alert('Login failed. Please check your credentials.');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again later.');
+      }
+  };
 </script>

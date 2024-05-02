@@ -1,10 +1,15 @@
 <template>
-   <Navbar />
-   <div id="main-container">
-      <div class="container">
-         <Main /> 
-         <Rightside />
+   <div v-if="authenticated">
+      <Navbar />
+      <div id="main-container">
+         <div class="container">
+            <Main /> 
+            <Rightside />
+         </div>
       </div>
+   </div>
+   <div v-else>
+      <p>Please login to access the cashier.</p>
    </div>
 </template>
 
@@ -12,7 +17,22 @@
 import Navbar from './Navbar.vue';
 import Rightside from './Rightside.vue';
 import Main from './Main.vue';
+import { useRouter } from 'vue-router';
+
+import { ref, onMounted  } from 'vue';
+
+const authenticated = ref(false);
+const router = useRouter();
+
+onMounted(() => {
+    const jwt = localStorage.getItem('jwt');
+    authenticated.value = !!jwt;
+    if (!authenticated.value) {
+        router.push('/');
+    }
+});
 </script>
+
 
 <style scoped>
 body{

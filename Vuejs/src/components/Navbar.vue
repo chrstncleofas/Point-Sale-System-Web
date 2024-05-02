@@ -97,39 +97,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+  import { ref } from 'vue';
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const showLogoutModal = ref(false);
-const isSidebarOpen = ref(false);
+  const router = useRouter();
+  const showLogoutModal = ref(false);
+  const isSidebarOpen = ref(false);
 
-const openLogoutModal = () => {
-  showLogoutModal.value = true;
-};
+  const openLogoutModal = () => {
+    showLogoutModal.value = true;
+  };
 
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
-};
+  const toggleSidebar = () => {
+    isSidebarOpen.value = !isSidebarOpen.value;
+  };
 
-const confirmLogout = async () => {
-  try {
-    const response = await axios.post('http://127.0.0.1:8000/logout');
-    
-    if (response.status === 200) {
-      router.push('/');
-    } else {
-      console.error('An error occurred while logging out.');
+  const confirmLogout = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/logout');
+      if (response.status === 200) {
+        localStorage.removeItem('jwt');
+        router.push('/');
+      } else {
+        console.error('An error occurred while logging out.');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
     }
-  } catch (error) {
-    console.error('Error logging out:', error);
-  } finally {
-    showLogoutModal.value = false;
-  }
-};
+  };
 
-const cancelLogout = () => {
-  showLogoutModal.value = false;
-};
+  const cancelLogout = () => {
+    showLogoutModal.value = false;
+  };
 </script>
