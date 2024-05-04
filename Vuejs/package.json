@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "tailwindcss -i ./src/assets/style.css -o ./src/assets/main.css",
+    "build": "tailwindcss -i ./src/assets/style.css -o ./src/assets/main.css dotenv -e .env vue-cli-service build",
     "dev": "vite",
     "preview": "vite preview",
     "watch": "tailwindcss -i ./src/assets/style.css -o ./src/assets/main.css --watch"
@@ -14,6 +14,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
+    "dotenv": "^16.4.5",
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "vue": "^3.4.23",

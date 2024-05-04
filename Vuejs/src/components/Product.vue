@@ -1,7 +1,7 @@
 <template>
   <div class="item-container">
       <div v-for="product in products" :key="product.ProductID" class="item bg-white mb-5">
-        <img :src="`http://127.0.0.1:8000${product.Image}`" class="w-15 h-15 product-img">
+        <img :src="getImageUrl(product.Image)" class="w-15 h-15 product-img">
           <h6 class="font-bold hidden">{{ product.ProductID }}</h6>
           <h6 class="font-bold">{{ product.ProductName }}</h6>
           <p class="text-xs font-semibold">Php {{ product.SellingPrice }}</p>
@@ -18,21 +18,24 @@
   const store = useStore();
   const products = ref([]);
   // Fetch Function
+  const url = 'http://127.0.0.1:8000'
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/inventory/');
+      const response = await fetch(`${url}/inventory/`);
       const data = await response.json();
       products.value = data;
     } catch (error) {
       console.error('Error fetching products:', error);
     }
-  }
+  } 
   // Fetch All Product API
   fetchProducts();
   // Add to Cart Function
   const addToCart = (product) => {
-    store.dispatch('addToCart', product);
+    const productWithImage = { ...product, ImageURL: getImageUrl(product.Image) };
+    store.dispatch('addToCart', productWithImage);
   };
+  const getImageUrl = (image) => `${image.startsWith('/') ? url : ''}${image}`;
 </script>
 <!-- Style Section -->
 <style scoped>

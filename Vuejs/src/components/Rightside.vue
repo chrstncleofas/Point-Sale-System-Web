@@ -2,12 +2,12 @@
     <div class="right-side">
       <div class="cashier-transid">
         <div class="content">
-          <div>
-            <input type="text" :id="transactionID" value="TRAN001">
+          <div class="idTrans">
+            <input class="txtTransaction" type="text" :id="transactionID" value="TRAN001">
           </div>
-          <div>
-            <h6 id="cashierName">TianTzy</h6>
-            <h6 id="date_time">04-23-2024 - 10:00</h6>
+          <div class="cashierContent">
+            <h6 class="text-xs" id="cashierName"><span class="font-bold">Cashier Name:</span> TianTzy</h6>
+            <h6 class="text-xs" id="date_time"><span class="font-bold">Date & Time:</span> 04-23-2024 - 10:00</h6>
           </div>
         </div>
       </div>
@@ -31,7 +31,6 @@
               <td id="productName" class="text-xs font-light">{{ item.ProductName }}</td>
               <td id="description" class="text-xs font-light">{{ item.Description }}</td>
               <td><img :src="item.ImageURL" alt="Product Image" style="width: 100px; height: auto;"></td>
-              <!-- <td><img :src="`http://127.0.0.1:8000${item.ImageURL}`" alt="Product Image" style="width: 100px; height: auto;"></td> -->
               <td class="text-xs font-light">
                 <div class="flex items-center justify-center">
                   <button @click="decrement(item)" class="px-2 py-1 rounded-l bg-gray-200">
@@ -92,7 +91,15 @@
   import axios from 'axios';
   
   const store = useStore();
-  const cartItems = computed(() => store.getters.cartItems);
+  const url = 'http://127.0.0.1:8000'
+
+  const cartItems = computed(() => {
+    return store.getters.cartItems.map(item => ({
+      ...item,
+      ImageURL: getImageUrl(item.ImageURL)
+    }));
+  });
+  const getImageUrl = (image) => `${image.startsWith('/') ? url : ''}${image}`;
   const change = ref(0);
   const transactionID = ref('TRAN001');
   let amount = '';
@@ -255,6 +262,14 @@
   .button {
     display: flex;
     justify-content: flex-end;
+  }
+  .idTrans input{
+    border: #ddd 1px solid;
+  }
+  .txtTransaction{
+    width: 120px;
+    font-weight: bold;
+    text-align: center;
   }
 </style>
   
