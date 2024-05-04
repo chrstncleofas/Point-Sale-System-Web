@@ -17,66 +17,64 @@
 </template>
 
 <script setup>
-import Navbar from './Navbar.vue';
-import Rightside from './Rightside.vue';
-import Main from './Main.vue';
-import { useRouter } from 'vue-router';
-
-import { ref, onMounted  } from 'vue';
-
-const authenticated = ref(false);
-const router = useRouter();
-
-onMounted(() => {
-    const jwt = localStorage.getItem('jwt');
-    authenticated.value = !!jwt;
-    if (!authenticated.value) {
-        router.push('/');
-    }
-});
+   import Navbar from './Navbar.vue';
+   import Rightside from './Rightside.vue';
+   import Main from './Main.vue';
+   import { useRouter } from 'vue-router';
+   import { ref, onMounted  } from 'vue';
+   // Variables
+   const authenticated = ref(false);
+   const router = useRouter();
+   // Middleware is_authenticated
+   onMounted(() => {
+      const jwt = localStorage.getItem('jwt');
+      authenticated.value = !!jwt;
+      if (!authenticated.value) {
+         router.push('/');
+      }
+   });
 </script>
-
-
+<!-- Style Section -->
 <style scoped>
-body{
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-}
-#main-container{
-   max-width: 1150px;
-   margin: auto;
-}
-.container{
-   display: grid;
-   grid-template-columns: 1fr 420px;
-   gap: 15px;
-   margin-top: 70px;
-}
-
-@media (max-width: 430px) {
+   body{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+   }
    #main-container{
-      display: flex;
-      justify-content: center;
-      height: 50vh;
+      max-width: 1150px;
+      margin: auto;
    }
-   .container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-   }
-}
-
-@media screen and (max-width: 768px) {
-   #main-container{
-      display: flex;
-      justify-content: center;
-      height: 50vh;
-   }
-   .container {
-      display: flex;
-      flex-direction: column;
+   .container{
+      display: grid;
+      grid-template-columns: 1fr 420px;
       gap: 15px;
+      margin-top: 70px;
    }
-}
+
+   @media (max-width: 430px) {
+      #main-container{
+         display: flex;
+         justify-content: center;
+         height: 50vh;
+      }
+      .container {
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+      }
+   }
+
+   @media screen and (max-width: 768px) {
+      #main-container{
+         display: flex;
+         justify-content: center;
+         height: 50vh;
+      }
+      .container {
+         display: flex;
+         flex-direction: column;
+         gap: 15px;
+      }
+   }
 </style>

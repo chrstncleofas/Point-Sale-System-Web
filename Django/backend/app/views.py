@@ -1,7 +1,6 @@
 import json
 import jwt, datetime
 from django.urls import reverse
-from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
 from rest_framework.views import APIView
@@ -9,11 +8,12 @@ from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from rest_framework.parsers import JSONParser
 from app.serializers import InventorySerializer
+from rest_framework.exceptions import ParseError
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
-from .models import TableStocks, TableTransaction, CustomUser
+from .models import TableInventory ,TableTransaction, CustomUser
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
@@ -21,34 +21,44 @@ DASHBOARDS_URL_PATH = 'app/dashboard.html'
 ADD_PRODUCT_URL = 'app/addingProduct.html'
 
 @csrf_exempt
-def inventoryApiRequest(request, product_id=0) -> (JsonResponse | None):
+def inventoryApiRequest(request, product_id=0):
     # Fetch all Data API
-    if request.method=='GET':
-        products = TableStocks.objects.all()
-        product_serializer=InventorySerializer(products, many=True)
+    if request.method == 'GET':
+        products = TableInventory.objects.all()
+        product_serializer = InventorySerializer(products, many=True)
         return JsonResponse(product_serializer.data, safe=False)
-    # Create or Add API
-    elif request.method=='POST':
-        product_data=JSONParser().parse(request)
-        product_serializer=InventorySerializer(data=product_data)
+    # POST API Data to Database
+    elif request.method == 'POST':
+        product_data = request.POST.copy()
+        image_data = request.FILES.get('Image')
+        product_data['Image'] = image_data      
+        product_serializer = InventorySerializer(data=product_data) 
         if product_serializer.is_valid():
             product_serializer.save()
             return JsonResponse("Added Successfully", safe=False)
-        return JsonResponse("Failed to Add", safe=False)
-    # Update API
-    elif request.method=='PUT':
-        product_data=JSONParser().parse(request)
-        product=TableStocks.objects.get(product_id=product_data['ProductID'])
-        product_serializer=InventorySerializer(product, data=product_data)
+        return JsonResponse(product_serializer.errors, status=400)  
+    # Update PUT API
+    elif request.method == 'PUT':
+        try:
+            product_data = JSONParser().parse(request)
+        except ParseError as e:
+            return JsonResponse({'error': str(e)}, status=400)   
+        product_id = product_data.get('ProductID')
+        product = TableInventory.objects.get(product_id=product_id)
+        product_serializer = InventorySerializer(product, data=product_data)    
         if product_serializer.is_valid():
             product_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
-        return JsonResponse("Failed to Update")
+        return JsonResponse(product_serializer.errors, status=400)
     # Delete API
-    elif request.method=='DELETE':
-        product=TableStocks.objects.get(product_id=product_id)
-        product.delete()
-        return JsonResponse("Deleted Successfully", safe=False)
+    elif request.method == 'DELETE':
+        product_id = request.POST.get('ProductID')
+        try:
+            product = TableInventory.objects.get(product_id=product_id)
+            product.delete()
+            return JsonResponse("Deleted Successfully", safe=False)
+        except TableInventory.DoesNotExist:
+            return JsonResponse({'error': 'Product does not exist'}, status=404)
     
 @csrf_exempt
 def saveTransaction(request) -> JsonResponse:
@@ -112,7 +122,7 @@ class LogoutView(APIView):
         return response
     
 def dashboard(request) -> HttpResponse:
-    totalProduct = TableStocks.objects.count()
+    totalProduct = TableInventory.objects.count()
     users = CustomUser.objects.count()
     transactions = TableTransaction.objects.all()
     itemSold = TableTransaction.objects.count()
@@ -130,12 +140,12 @@ def dashboard(request) -> HttpResponse:
 
 def getListOfProduct(request) -> HttpResponse:
     return render(request, 'app/product-page.html', {
-        'getListOfProduct' : TableStocks.objects.all(),
+        'getListOfProduct' : TableInventory.objects.all(),
     })
 
 def view_items(request, id) -> HttpResponseRedirect:
     if request.method == 'GET':
-        TableStocks.objects.get(pk=id)
+        TableInventory.objects.get(pk=id)
     return HttpResponseRedirect(reverse(getListOfProduct))
 
 def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse):

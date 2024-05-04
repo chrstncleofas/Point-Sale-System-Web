@@ -18,6 +18,7 @@
               <th class="text-xs font-semibold">No.</th>
               <th class="text-xs font-semibold">Name</th>
               <th class="text-xs font-semibold">Description</th>
+              <th class="text-xs font-semibold">Image</th>
               <th class="text-xs font-semibold">Qty</th>
               <th class="text-xs font-semibold">Price</th>
               <th class="text-xs font-semibold">Total</th>
@@ -29,6 +30,8 @@
               <td id="product_id" class="text-xs font-light">{{ item.ProductID }}</td>
               <td id="productName" class="text-xs font-light">{{ item.ProductName }}</td>
               <td id="description" class="text-xs font-light">{{ item.Description }}</td>
+              <td><img :src="item.ImageURL" alt="Product Image" style="width: 100px; height: auto;"></td>
+              <!-- <td><img :src="`http://127.0.0.1:8000${item.ImageURL}`" alt="Product Image" style="width: 100px; height: auto;"></td> -->
               <td class="text-xs font-light">
                 <div class="flex items-center justify-center">
                   <button @click="decrement(item)" class="px-2 py-1 rounded-l bg-gray-200">
@@ -161,7 +164,7 @@
     );
   });
 
-  async function saveToDatabase() {
+  const saveToDatabase = async() => {
     try {
       const item = cartItems.value[0];
       const payload = {
@@ -181,7 +184,7 @@
     } catch(error) {
       console.error('Error saving data:', error);
     }
-  }
+  };
 
 </script>
 

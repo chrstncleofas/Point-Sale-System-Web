@@ -29,6 +29,16 @@ class TableStocks(models.Model):
     BuyingPrice = models.CharField(max_length=500)
     SellingPrice = models.CharField(max_length=500)
 
+class TableInventory(models.Model):
+    ProductID = models.CharField(max_length=500)
+    ProductName = models.CharField(max_length=500)
+    Category = models.CharField(max_length=500)
+    Description = models.CharField(max_length=500)
+    Qty = models.CharField(max_length=500)
+    BuyingPrice = models.CharField(max_length=500)
+    SellingPrice = models.CharField(max_length=500)
+    Image = models.ImageField(upload_to='product_images/')
+
 class TableTransaction(models.Model):
     TransactionID = models.CharField(max_length=500)
     ProductID = models.CharField(max_length=500)

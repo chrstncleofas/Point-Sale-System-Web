@@ -12,7 +12,7 @@ export default createStore({
         state.cart[existingItemIndex].quantity++;
         state.cart[existingItemIndex].totalPrice = state.cart[existingItemIndex].quantity * product.SellingPrice;
       } else {
-        state.cart.push({ ...product, quantity: 1, totalPrice: product.SellingPrice });
+        state.cart.push({ ...product, quantity: 1, totalPrice: product.SellingPrice, ImageURL: product.ImageURL });
       }
     },
     incrementQuantity(state, index) {

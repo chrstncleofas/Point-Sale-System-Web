@@ -1,15 +1,9 @@
 from rest_framework import serializers
-from app.models import TableStocks
+from app.models import TableStocks, TableInventory
 
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
-        model=TableStocks 
-        fields=(
-            'ProductID',
-            'ProductName',
-            'Category',
-            'Description',
-            'Qty',
-            'BuyingPrice',
-            'SellingPrice',
-        )
+        model = TableInventory
+        fields = ['ProductID', 'ProductName', 'Category', 'Description', 'Qty', 'BuyingPrice', 'SellingPrice', 'Image']
+
+

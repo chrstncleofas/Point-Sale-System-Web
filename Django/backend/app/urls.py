@@ -1,7 +1,9 @@
 from app import views
-from django.conf.urls import url
 from django.urls import path
+from django.conf.urls import url
+from django.conf import settings
 from .views import LoginView, LogoutView
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Frontend API for Inventory
@@ -18,4 +20,4 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('getListOfProduct', views.getListOfProduct, name='getListOfProduct'),
     path('<int:id>/view_items/', views.view_items, name='view_items'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

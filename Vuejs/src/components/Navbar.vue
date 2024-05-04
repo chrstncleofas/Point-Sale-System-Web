@@ -100,19 +100,19 @@
   import { ref } from 'vue';
   import axios from 'axios';
   import { useRouter } from 'vue-router';
-
+  // Variables
   const router = useRouter();
   const showLogoutModal = ref(false);
   const isSidebarOpen = ref(false);
-
+  // 
   const openLogoutModal = () => {
     showLogoutModal.value = true;
   };
-
+  // 
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
   };
-
+  // 
   const confirmLogout = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:8000/logout');
@@ -126,7 +126,7 @@
       console.error('Error logging out:', error);
     }
   };
-
+  // 
   const cancelLogout = () => {
     showLogoutModal.value = false;
   };

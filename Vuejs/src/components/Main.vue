@@ -17,9 +17,8 @@
 </script>
 
 <style scoped>
-.products{
-    width: 100%;
-    max-height: 830px;
-}
-
+    .products{
+        width: 100%;
+        max-height: 830px;
+    }
 </style>
