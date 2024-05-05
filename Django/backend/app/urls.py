@@ -21,4 +21,5 @@ urlpatterns = [
     path('getListOfProduct', views.getListOfProduct, name='getListOfProduct'),
     path('<int:id>/view_items/', views.view_items, name='view_items'),
     path('addProduct/', views.addProduct, name='addProduct'),
+    path('search-products/', views.search_products, name='search_products'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

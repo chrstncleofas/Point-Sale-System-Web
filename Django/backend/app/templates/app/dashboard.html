@@ -137,19 +137,6 @@
         </div>
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const formatCurrency = (value) => {
-                return new Intl.NumberFormat('en-PH', {
-                    style: 'currency',
-                    currency: 'PHP',
-                }).format(value);
-            };
-            const monthlySalesElement = document.getElementById('monthly-sales');
-            const monthlySalesValue = monthlySalesElement.textContent.replace(/[^0-9.-]+/g,"");
-            monthlySalesElement.textContent = formatCurrency(parseFloat(monthlySalesValue));
-        });
-    </script>
-    
+    <script src="{% static 'js/dashboard.js' %}"></script>
 </body>
 </html>

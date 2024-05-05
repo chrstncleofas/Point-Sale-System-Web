@@ -1,5 +1,6 @@
 import json
 import jwt, datetime
+from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse
@@ -142,6 +143,16 @@ def getListOfProduct(request) -> HttpResponse:
     return render(request, 'app/product-page.html', {
         'getListOfProduct' : TableInventory.objects.all(),
     })
+
+def search_products(request):
+    query = request.GET.get('search')
+    if query:
+        products = TableInventory.objects.filter(Q(Category__icontains=query) | 
+                                          Q(ProductID__icontains=query) | 
+                                          Q(ProductName__icontains=query))
+    else:
+        products = TableInventory.objects.all()
+    return render(request, 'app/product-page.html', {'getListOfProduct': products})
 
 def view_items(request, id) -> HttpResponseRedirect:
     if request.method == 'GET':

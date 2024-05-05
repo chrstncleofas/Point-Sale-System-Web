@@ -105,7 +105,9 @@
                     </div>
                 </div>
                 <div class="main-cards">
-                    <input type="text" class="form-control" id="" name="" placeholder="Search Product">
+                    <form id="search-form" action="{% url 'search_products' %}" method="GET">
+                        <input type="text" class="form-control" id="search" name="search" placeholder="Search Product">
+                    </form>
                 </div>
                 <div class="charts-card">
                     <div id="bar-chart">
@@ -133,7 +135,7 @@
                                         <td>{{ item.Category }}</td>
                                         <td>{{ item.Description }}</td>
                                         <td>{{ item.Qty }}</td>
-                                        <td>{{ item.SellingPrice }}</td>
+                                        <td id="SPrice">{{ item.SellingPrice }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary me-1" href="{% url 'view_items' item.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{item.id}}">
                                                 <i class="fa-solid fa-circle-info fa-lg"></i>
@@ -155,8 +157,8 @@
                                                         <li>Category : <strong>{{ item.Category }}</strong></li>
                                                         <li>Description : <strong>{{ item.Description }}</strong></li>
                                                         <li>Qty : <strong>{{ item.Qty }}</strong></li>
-                                                        <li>BuyingPrice : <strong>{{ item.BuyingPrice }}</strong></li>
-                                                        <li>SellingPrice : <strong>{{ item.SellingPrice }}</strong></li>
+                                                        <li>BuyingPrice : <strong id="BPrice">{{ item.BuyingPrice }}</strong></li>
+                                                        <li>SellingPrice : <strong id="SPrice">{{ item.SellingPrice }}</strong></li>
                                                         </ul>
                                                     </div>
                                                     <div class="modal-footer">
@@ -210,5 +212,7 @@
         </div>
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/currency.js' %}"></script>
+    <script src="{% static 'js/pressKeys.js' %}"></script>
 </body>
 </html>
