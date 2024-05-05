@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <title>Add Product</title>
+    <title>Add Users</title>
 </head>
 <body>
     {% if user.is_authenticated %}
@@ -69,7 +69,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="{% url 'getTransactionsList' %}">
+                        <a href="">
                             <span class="material-icons-outlined">list_alt</span> Transaction
                         </a>
                     </li>
@@ -79,7 +79,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="">
+                        <a href="{% url 'getUserList' %}">
                             <span class="material-icons-outlined">group</span> User Management
                         </a>
                     </li>
@@ -91,70 +91,9 @@
                 </ul>
             </aside>
             <main class="main-container">
-                <div class="form-container shadow p-4 mb-4 bg-white">
-                    <h2 class="mb-4">Add Product</h2>
-                    <form id="add-product-form" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-group row mb-3">
-                            <label for="ProductID" class="col-sm-2 col-form-label text-end">Product ID*</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="ProductID" name="ProductID" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="ProductName" class="col-sm-2 col-form-label text-end">Product Name*</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="ProductName" name="ProductName" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="Category" class="col-sm-2 col-form-label text-end">Category*</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="Category" name="Category" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="Description" class="col-sm-2 col-form-label text-end">Description*</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="Qty" class="col-sm-2 col-form-label text-end">Quantity*</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="Qty" name="Qty" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="BuyingPrice" class="col-sm-2 col-form-label text-end">Buying Price*</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="BuyingPrice" name="BuyingPrice" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="SellingPrice" class="col-sm-2 col-form-label text-end">Selling Price*</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="SellingPrice" name="SellingPrice" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="Image" class="col-sm-2 col-form-label text-end">Product Image*</label>
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <input type="file" class="form-control d-none" id="Image" name="Image" accept="image/*" required onchange="previewImage(this)" required>
-                                    <label class="btn btn-secondary mb-0" for="Image" style="cursor: pointer;">Choose File</label>
-                                </div>
-                                <div class="image-preview mb-3 mt-3" id="imagePreview" style="width: 150px; height: 150px; border: 1px solid #ccc; background-size: cover; background-position: center;"></div>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Add Product</button>
-                        </div>
-                    </form>
-                </div>
+                
             </main>              
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/previewImage.js' %}"></script>
 </body>
 </html>

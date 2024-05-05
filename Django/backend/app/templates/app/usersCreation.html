@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <title>List Product Page</title>
+    <title>User Management</title>
 </head>
 <body>
     {% if user.is_authenticated %}
@@ -69,7 +69,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="{% url 'getTransactionsList' %}">
+                        <a href="">
                             <span class="material-icons-outlined">list_alt</span> Transaction
                         </a>
                     </li>
@@ -94,50 +94,43 @@
                 <div class="main-cards">
                     <div class="card">
                         <div class="card-inner">
-                            <p class="text-primary">Add Product</p>
+                            <p class="text-primary">Add Users</p>
                             <a 
                                 type="button"
                                 class="btn btn-primary me-1"
-                                href="{% url 'addProduct' %}">
+                                href="">
                                 <i class="fa-solid fa-add fa-lg"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="main-cards">
-                    <form id="search-form" action="{% url 'search_products' %}" method="GET">
-                        <input type="text" class="form-control" id="search" name="search" placeholder="Search Product">
-                    </form>
-                </div>
                 <div class="charts-card">
                     <div id="bar-chart">
-                    {% if getListOfProduct %}
+                    {% if getUserList %}
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="expand-size">Product ID</th>
-                                    <th scope="col" class="expand-size">Product Name</th>
-                                    <th scope="col" class="expand-size">Category</th>
-                                    <th scope="col" class="expand-size">Description</th>
-                                    <th scope="col" class="expand-size">Qty</th>
-                                    <th scope="col" class="expand-size">Selling Price</th>
+                                    <th scope="col" class="expand-size">ID</th>
+                                    <th scope="col" class="expand-size">First Name</th>
+                                    <th scope="col" class="expand-size">Last Name</th>
+                                    <th scope="col" class="expand-size">Address</th>
+                                    <th scope="col" class="expand-size">Last Login</th>
                                     <th scope="col">Info</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in getListOfProduct %}
+                                {% for item in getUserList %}
                                     <tr>
-                                        <td>{{ item.ProductID }}</td>
-                                        <td>{{ item.ProductName }}</td>
-                                        <td>{{ item.Category }}</td>
-                                        <td>{{ item.Description }}</td>
-                                        <td>{{ item.Qty }}</td>
-                                        <td id="SPrice">{{ item.SellingPrice }}</td>
+                                        <td>{{ item.UserID }}</td>
+                                        <td>{{ item.first_name }}</td>
+                                        <td>{{ item.last_name }}</td>
+                                        <td>{{ item.Address }}</td>
+                                        <td >{{ item.last_login }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary me-1" href="{% url 'view_items' item.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{item.id}}">
+                                            <button type="button" class="btn btn-primary me-1" href="{% url 'viewInfoTransaction' item.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{item.id}}">
                                                 <i class="fa-solid fa-circle-info fa-lg"></i>
                                             </button>
                                                 <!-- Modal -->
@@ -152,13 +145,15 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <ul class="list-unstyled">
-                                                        <li>Product ID : <strong>{{ item.ProductID }}</strong></li>
+                                                        <li>Transaction ID : <strong>{{ item.TransactionID }}</strong></li>
+                                                        <li>Code : <strong>{{ item.ProductID }}</strong></li>
                                                         <li>Product Name : <strong>{{ item.ProductName }}</strong></li>
-                                                        <li>Category : <strong>{{ item.Category }}</strong></li>
                                                         <li>Description : <strong>{{ item.Description }}</strong></li>
                                                         <li>Qty : <strong>{{ item.Qty }}</strong></li>
-                                                        <li>BuyingPrice : <strong id="BPrice">{{ item.BuyingPrice }}</strong></li>
-                                                        <li>SellingPrice : <strong id="SPrice">{{ item.SellingPrice }}</strong></li>
+                                                        <li>Unit Price : <strong id="BPrice">{{ item.UnitPrice }}</strong></li>
+                                                        <li>Total Amount : <strong id="SPrice">{{ item.TotalAmount }}</strong></li>
+                                                        <li>Date & Time : <strong id="SPrice">{{ item.DateTime }}</strong></li>
+                                                        <li>Cashier Name : <strong id="SPrice">{{ item.CashierName }}</strong></li>
                                                         </ul>
                                                     </div>
                                                     <div class="modal-footer">
@@ -169,32 +164,33 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-success"><i class="fa-solid fa-edit fa-lg"></i></a>
+                                            <a href="{% url 'editUser' item.id %}" class="btn btn-success"><i class="fa-solid fa-edit fa-lg"></i></a>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger me-1" href="" data-bs-toggle="modal" data-bs-target="#delete">
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{item.id}}">
                                                 <i class="fa-solid fa-trash fa-lg"></i>
                                             </button>
                                             <!-- Modal -->
-                                            <div class="modal" id="delete" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
+                                            <div class="modal" id="delete{{item.id}}" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
+                                                  <div class="modal-content">
                                                     <div class="modal-header">
-                                                    <h5 class="modal-title">User : </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                      <h5 class="modal-title">Transaction : {{ item.ProductName }}</h5>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true"></span>
-                                                    </button>
+                                                      </button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Are you sure do want to delete this record?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <form action="" method="POST">
-                                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                                        <form action="{% url 'delete_list' item.id %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="submit" class="btn btn-primary" value="Delete">
                                                         </form>
-                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
                                                     </div>
-                                                </div>
+                                                  </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -208,11 +204,8 @@
                     </div>
                 {% endif %}
                 </div>
-           </main>
-        </div>
+            </main>              
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/currency.js' %}"></script>
-    <script src="{% static 'js/pressKeys.js' %}"></script>
 </body>
 </html>

@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
 from .models import TableInventory ,TableTransaction, CustomUser
+from .forms import CustomUserChangeForm
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
@@ -135,13 +136,23 @@ def dashboard(request) -> HttpResponse:
             'totalProduct': totalProduct,
             'users': users,
             'itemSold' : itemSold,
-            'total_sales': total_sales
+            'total_sales': total_sales,
         }
     )
 
 def getListOfProduct(request) -> HttpResponse:
     return render(request, 'app/product-page.html', {
         'getListOfProduct' : TableInventory.objects.all(),
+    })
+
+def getTransactionsList(request) -> HttpResponse:
+    return render(request, 'app/transaction.html', {
+        'getTransactionsList' : TableTransaction.objects.all(),
+    })
+
+def getUserList(request) -> HttpResponse:
+    return render(request, 'app/usersCreation.html', {
+        'getUserList' : CustomUser.objects.all(),
     })
 
 def search_products(request):
@@ -159,7 +170,16 @@ def view_items(request, id) -> HttpResponseRedirect:
         TableInventory.objects.get(pk=id)
     return HttpResponseRedirect(reverse(getListOfProduct))
 
-# Code sa logic ng pagawa kung paano mag add ng products
+def viewInfoTransaction(request, id) -> HttpResponseRedirect:
+    if request.method == 'GET':
+        TableTransaction.objects.get(pk=id)
+    return HttpResponseRedirect(reverse(getTransactionsList))
+
+def viewInfoUsers(request, id) -> HttpResponsePermanentRedirect:
+    if request.method == 'GET':
+        CustomUser.objects.get(pk=id)
+    return HttpResponseRedirect(reverse(getUserList))
+
 def addProduct(request) -> HttpResponse:
     if request.method == 'POST':
         product_data = request.POST.copy()
@@ -173,6 +193,29 @@ def addProduct(request) -> HttpResponse:
         else:
             messages.error(request, "Failed to add product. Please check the form.")
     return render(request, 'app/add-product-page.html')
+
+def delete_list(request, id) -> HttpResponseRedirect:
+    if request.method == 'POST':
+        transact = TableTransaction.objects.get(pk=id)
+        transact.delete()
+    return HttpResponseRedirect(reverse('getTransactionsList'))
+
+def editUser(request, id) -> HttpResponse:
+    if request.method == 'POST':
+        users = CustomUser.objects.get(pk=id)
+        form = CustomUserChangeForm(request.POST, instance=users)
+        if form.is_valid():
+            form.save()
+            return render(request, 'app/editUser.html', {
+                'form': form,
+                'success': True,
+            })
+    else:
+        users = CustomUser.objects.get(pk=id)
+        form = CustomUserChangeForm(instance=users)
+    return render(request, 'app/editUser.html',{
+        'form': form,
+    })
 
 def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse):
     if request.method == 'POST':
