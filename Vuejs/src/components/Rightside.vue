@@ -93,16 +93,8 @@
   const store = useStore();
   const url = 'http://127.0.0.1:8000'
 
-  const cartItems = computed(() => {
-    return store.getters.cartItems.map(item => ({
-      ...item,
-      ImageURL: getImageUrl(item.ImageURL)
-    }));
-  });
-  const getImageUrl = (image) => `${image.startsWith('/') ? url : ''}${image}`;
   const change = ref(0);
   const transactionID = ref('TRAN001');
-  let amount = '';
   const showSuccessModal = ref(false);
 
   const handlePayment = async () => {
@@ -111,18 +103,26 @@
       showSuccessModal.value = true;
       setTimeout(() => {
         location.reload();
-      }, 600);
+      }, 800);
     } catch (error) {
       console.error('Error saving data:', error);
     }
   };
-  
+
+  const cartItems = computed(() => {
+    return store.getters.cartItems.map(item => ({
+      ...item,
+      ImageURL: getImageUrl(item.ImageURL)
+    }));
+  });
+
   const subtotal = computed(() => {
     return cartItems.value.reduce((acc, item) => 
         acc + item.totalPrice, 0
       );
     });
-  
+
+  let amount = '';
   const computeChange = () => {
     const inputAmount = parseFloat(amount);
     if (!isNaN(inputAmount)) {
@@ -192,6 +192,8 @@
       console.error('Error saving data:', error);
     }
   };
+
+  const getImageUrl = (image) => `${image.startsWith('/') ? url : ''}${image}`;
 
 </script>
 

@@ -10,9 +10,9 @@ export default createStore({
       const existingItemIndex = state.cart.findIndex(item => item.ProductID === product.ProductID);
       if (existingItemIndex !== -1) {
         state.cart[existingItemIndex].quantity++;
-        state.cart[existingItemIndex].totalPrice = state.cart[existingItemIndex].quantity * product.SellingPrice;
+        state.cart[existingItemIndex].totalPrice = state.cart[existingItemIndex].quantity * state.cart[existingItemIndex].SellingPrice;
       } else {
-        state.cart.push({ ...product, quantity: 1, totalPrice: product.SellingPrice, ImageURL: product.ImageURL });
+        state.cart.push({ ...product, quantity: 1, totalPrice: product.SellingPrice * 1, ImageURL: product.ImageURL });
       }
     },
     incrementQuantity(state, index) {

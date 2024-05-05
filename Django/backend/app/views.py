@@ -148,6 +148,21 @@ def view_items(request, id) -> HttpResponseRedirect:
         TableInventory.objects.get(pk=id)
     return HttpResponseRedirect(reverse(getListOfProduct))
 
+# Code sa logic ng pagawa kung paano mag add ng products
+def addProduct(request) -> HttpResponse:
+    if request.method == 'POST':
+        product_data = request.POST.copy()
+        image_data = request.FILES.get('Image')
+        product_data['Image'] = image_data
+        product_serializer = InventorySerializer(data=product_data)
+        if product_serializer.is_valid():
+            product_serializer.save()
+            messages.success(request, "Product added successfully!")
+            return redirect('getListOfProduct')
+        else:
+            messages.error(request, "Failed to add product. Please check the form.")
+    return render(request, 'app/add-product-page.html')
+
 def login_page(request) -> (HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse):
     if request.method == 'POST':
         username = request.POST.get('login-username')
