@@ -6,7 +6,7 @@
             <input class="txtTransaction" type="text" :id="transactionID" value="TRAN001">
           </div>
           <div class="cashierContent">
-            <h6 class="text-xs" id="cashierName"><span class="font-bold">Cashier Name:</span> TianTzy</h6>
+            <h6 class="text-xs" id="cashierName"><span class="font-bold">Cashier Name:</span> {{ firstName }}</h6>
             <h6 class="text-xs" id="date_time"><span class="font-bold">Date & Time:</span> 04-23-2024 - 10:00</h6>
           </div>
         </div>
@@ -86,7 +86,7 @@
   </template>
   
  <script setup>
-  import { computed, watch, ref } from 'vue';
+  import { computed, watch, ref, onMounted, defineProps } from 'vue';
   import { useStore } from 'vuex';
   import axios from 'axios';
   
@@ -97,17 +97,10 @@
   const transactionID = ref('TRAN001');
   const showSuccessModal = ref(false);
 
-  const handlePayment = async () => {
-    try {
-      await saveToDatabase();
-      showSuccessModal.value = true;
-      setTimeout(() => {
-        location.reload();
-      }, 800);
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
-  };
+  // Fetch the firstName from localStorage on component mount
+  const props = defineProps({
+    firstName: String // Define the type of the prop
+  });
 
   const cartItems = computed(() => {
     return store.getters.cartItems.map(item => ({
@@ -171,23 +164,40 @@
     );
   });
 
-  const saveToDatabase = async() => {
+  const handlePayment = async (firstName) => {
     try {
-      const item = cartItems.value[0];
-      const payload = {
-        TransactionID: transactionID.value,
-        ProductID: item.ProductID,
-        ProductName: item.ProductName,
-        Description: item.Description,
-        Qty: parseInt(item.quantity),
-        UnitPrice: parseFloat(item.SellingPrice),
-        TotalAmount: parseFloat(subtotal.value),
-        DateTime: new Date().toISOString(),
-        CashierName: 'TianTzy'
-      };
+      await saveToDatabase(firstName);
+      showSuccessModal.value = true;
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
 
-      const response = await axios.post('http://127.0.0.1:8000/saveTransaction/', payload);
-      console.log('Data saved successfully:', response.data);
+  const saveToDatabase = async () => {
+    try {
+      const promises = cartItems.value.map(async (item) => {
+        const payload = {
+          TransactionID: transactionID.value,
+          ProductID: item.ProductID,
+          ProductName: item.ProductName,
+          Description: item.Description,
+          Qty: parseInt(item.quantity),
+          UnitPrice: parseFloat(item.SellingPrice),
+          TotalAmount: parseFloat(subtotal.value),
+          DateTime: new Date().toISOString(),
+          CashierName: props.firstName
+        };
+        const response = await axios.post('http://127.0.0.1:8000/saveTransaction/', payload);
+        console.log('Data saved successfully:', response.data);
+    });
+    await Promise.all(promises);
+    showSuccessModal.value = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
     } catch(error) {
       console.error('Error saving data:', error);
     }

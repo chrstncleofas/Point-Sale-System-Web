@@ -4,7 +4,7 @@
       <div id="main-container">
          <div class="container">
             <Main /> 
-            <Rightside />
+            <Rightside :firstName="firstName"/>
          </div>
       </div>
    </div>
@@ -25,6 +25,7 @@
    // Variables
    const authenticated = ref(false);
    const router = useRouter();
+   const firstName = ref('');
    // Middleware is_authenticated
    onMounted(() => {
       const jwt = localStorage.getItem('jwt');
@@ -32,6 +33,7 @@
       if (!authenticated.value) {
          router.push('/');
       }
+      firstName.value = localStorage.getItem('firstName') || '';
    });
 </script>
 <!-- Style Section -->

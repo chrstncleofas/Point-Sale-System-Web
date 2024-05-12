@@ -57,6 +57,7 @@
   const username = ref('');
   const password = ref('');
   const showModal = ref(false);
+  const firstName = ref('');
 
   const login = async () => {
       try {
@@ -67,6 +68,10 @@
 
           if (response.data.jwt) {
               localStorage.setItem('jwt', response.data.jwt);
+              if (response.data.first_name) {
+                localStorage.setItem('firstName', response.data.first_name);
+                console.log(response.data.first_name)
+              }
               showModal.value = true;
               setTimeout(() => {
                   router.push('/cashier');

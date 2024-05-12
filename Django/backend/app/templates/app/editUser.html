@@ -93,7 +93,7 @@
             <main class="main-container">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa-solid fa-pen-to-square fa-lg"></i> Update List Records
+                        <i class="fa-solid fa-pen-to-square fa-lg"></i> Edit User Details
                     </div>
                     <div class="card-body">
                         <form action="" method="POST" class="needs-validation" novalidate>
@@ -114,6 +114,22 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 {{ form.email }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="Address" class="form-label">Address</label>
+                                {{ form.Address }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="Age" class="form-label">Age</label>
+                                {{ form.Age }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="Gender" class="form-label">Gender</label>
+                                {{ form.Gender }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="Position" class="form-label">Position</label>
+                                {{ form.Position }}
                             </div>
                             <hr class="mb-4">
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>

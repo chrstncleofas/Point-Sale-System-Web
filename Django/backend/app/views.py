@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse
+from .forms import CustomUserChangeForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
@@ -15,7 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate, login, logout
 from .models import TableInventory ,TableTransaction, CustomUser
-from .forms import CustomUserChangeForm
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 HOME_URL_PATH = 'app/base.html'
@@ -110,7 +110,8 @@ class LoginView(APIView):
         response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token
+            'jwt': token,
+            'first_name': user.first_name
         }  
         return response
     
@@ -129,6 +130,7 @@ def dashboard(request) -> HttpResponse:
     transactions = TableTransaction.objects.all()
     itemSold = TableTransaction.objects.count()
     total_sales = sum(float(transaction.TotalAmount) for transaction in transactions)
+    first_name = request.user.first_name
     return render(
         request,
         DASHBOARDS_URL_PATH, 
@@ -137,6 +139,7 @@ def dashboard(request) -> HttpResponse:
             'users': users,
             'itemSold' : itemSold,
             'total_sales': total_sales,
+            'first_name': first_name
         }
     )
 

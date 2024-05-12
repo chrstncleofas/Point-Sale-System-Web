@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     Position = models.CharField(max_length=500, default='')
     def save(self, *args, **kwargs):
         if not self.pk:
-            latest_user = CustomUser.objects.order_by('-id').first()
+            latest_user = CustomUser.objects.order_by('id').first()
             if latest_user:
                 latest_user_id = int(latest_user.UserID[4:])
                 self.UserID = f'USER{latest_user_id + 1:04}'
